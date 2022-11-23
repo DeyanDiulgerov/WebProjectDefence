@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DD GameStore</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Watchlist.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .gamestore_navbar { 
+            overflow: hidden;
+            background-color: #333;
+        }
+
+            .gamestore_navbar a {
+                float: left;
+                font-size: 16px;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+        .gamestore_dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+            .gamestore_dropdown .gamestore_dropbtn {
+                font-size: 16px;
+                border: none;
+                outline: none;
+                color: white;
+                padding: 14px 16px;
+                background-color: inherit;
+                font-family: inherit;
+                margin: 0;
+            }
+
+            .gamestore_navbar a:hover, .gamestore_dropdown:hover .gamestore_dropbtn {
+                background-color: red;
+            }
+
+        .gamestore_dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .gamestore_dropdown-content a {
+                float: none;
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                text-align: left;
+            }
+
+                .gamestore_dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+        .gamestore_dropdown:hover .gamestore_dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DD GameStore</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @*<ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        @if(User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="Add">Add Game to store</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="MyCart">My Games</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Add">Add Product to store</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Gaming Products for sale</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="MyCart">My Products</a>
+                            </li>
+                        }
+                    </ul>*@
+                    <div class="gamestore_navbar">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <div class="gamestore_dropdown">
+                            <button class="gamestore_dropbtn">
+                                Products
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="gamestore_dropdown-content">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Gaming Products for sale</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Add">Add Product to store</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="MyCart">My Products</a>
+                            </div>
+                        </div>
+                        <div class="gamestore_dropdown">
+                            <button class="gamestore_dropbtn">
+                                Games
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="gamestore_dropdown-content">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="All">All Games for sale</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="Add">Add Game to store</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="MyCart">My Games</a>
+                            </div>
+                        </div>
+                    </div>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.UtcNow.Year - DD GameStore
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

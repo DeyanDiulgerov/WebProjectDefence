@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ProductListViewModel>
+
+@{
+    ViewBag.Title = "List of our products";
+}
+
+<h2 class="text-center text-white">@ViewBag.Title</h2>
+<hr />
+
+<body background="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWoY9TpSx88HqnbRAqMnQCq08pSvv5MLNFmg&usqp=CAU">
+</body>
+
+
+<div class="text-center row">
+    @foreach (var product in Model)
+    {
+        <div class="card col-4" style="width: 20rem;">
+            <img class="card-img-top" style="width: 18rem;"
+             src="@product.ImageUrl" alt="Product Image">
+            <div class="card-body">
+
+                <h5 class="card-title mt-1">@product.Name</h5>
+                <p class="mb-0">Company: @product.Company</p>
+                <p class="mb-0">Description: @product.Description</p>
+                <p class="mb-0">AvailableFrom: @product.AvailableFrom</p>
+                <p class="mb-0">Sales: @product.Sales</p>
+                <p class="mb-0">Price: @product.Price</p>
+                <p class="mb-0">DiscountPrice: @product.DiscountPrice</p>
+            </div>
+
+            <form class="input-group-sm" asp-route-productId="@product.Id" asp-controller="Products" asp-action="AddToCollection" method="post">
+                <input type="submit" value="Add to my cart" class="fs-6 btn btn-success mb-3 p-2" />
+            </form>
+        </div>
+    }
+</div>

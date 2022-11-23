@@ -1,0 +1,87 @@
+﻿@model AddGameViewModel
+
+@{
+    ViewBag.Title = "Add a Game for sale";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<body background="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSndDonuMu-KlCBB0dM_Oag-ycvq5xQytXu5Q&usqp=CAU">
+</body>
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="mb-3">
+                <label asp-for="@Model.GameName" class="form-label">GameName</label>
+                <input asp-for="@Model.GameName" class="form-control" aria-required="true" />
+                <span asp-validation-for="GameName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Publisher" class="form-label">Publisher</label>
+                <input asp-for="@Model.Publisher" class="form-control" aria-required="true" />
+                <span asp-validation-for="Publisher" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Developer" class="form-label">Developer</label>
+                <input asp-for="@Model.Developer" class="form-control" aria-required="true" />
+                <span asp-validation-for="Developer" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.ImageUrl" class="form-label">Image URL</label>
+                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Description" class="form-label">Description</label>
+                <input asp-for="@Model.Description" class="form-control" aria-required="true" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.ReleaseDate" class="form-label">ReleaseDate</label>
+                <input asp-for="@Model.ReleaseDate" class="form-control" aria-required="true" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.FirstWeekSales" class="form-label">FirstWeekSales</label>
+                <input asp-for="@Model.FirstWeekSales" class="form-control" aria-required="true" />
+                <span asp-validation-for="FirstWeekSales" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Price" class="form-label">Price</label>
+                <input asp-for="@Model.Price" class="form-control" aria-required="true" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.DiscountPrice" class="form-label">DiscountPrice</label>
+                <input asp-for="@Model.DiscountPrice" class="form-control" aria-required="true" />
+                <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Rating" class="form-label">Rating</label>
+                <input asp-for="@Model.Rating" class="form-control" value="" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.GenreId" class="form-label">Genre</label>
+                <select asp-for="@Model.GenreId" class="form-control">
+                    @foreach (var genre in Model.Genres)
+                    {
+                        <option value="@genre.Id">@genre.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="GenreId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-primary" type="submit" value="Add" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
