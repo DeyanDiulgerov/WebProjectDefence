@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebProject.Contracts;
-using WebProject.Models;
+using WebProject.Data;
+using WebProject.Models.GameViewModel;
 
 namespace WebProject.Controllers
 {
@@ -10,11 +11,14 @@ namespace WebProject.Controllers
     public class GamesController : Controller
     {
         private readonly IGameService gameService;
+        private readonly GameStoreDbContext context;
 
         public GamesController
-            (IGameService _gameService)
+            (IGameService _gameService,
+            GameStoreDbContext _context)
         {
             gameService = _gameService;
+            context = _context;
         }
 
 
@@ -87,6 +91,18 @@ namespace WebProject.Controllers
             await gameService.RemoveFromMyCartAsync(gameId, userId);
 
             return RedirectToAction(nameof(MyCart));
+        }
+
+        public IActionResult Details(int gameId)
+        {
+            if (!gameService.Exists(gameId))
+            {
+                return BadRequest();
+            }
+
+            var gameModel = gameService.GameDetailsById(gameId);
+
+            return View(gameModel);
         }
     }
 }

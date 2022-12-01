@@ -29,6 +29,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IHealthProductService, HealthProductService>();
 
 var app = builder.Build();
 

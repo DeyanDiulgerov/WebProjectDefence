@@ -2,24 +2,25 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebProject.Contracts;
-using WebProject.Models.GamingProductViewModel;
+using WebProject.Models.HealthProductViewModel;
 
 namespace WebProject.Controllers
 {
     [Authorize]
-    public class ProductsController : Controller
+    public class HealthProductController : Controller
     {
-        private readonly IProductService productService;
-        public ProductsController
-            (IProductService _productService)
+        private readonly IHealthProductService healthProductService;
+
+        public HealthProductController
+            (IHealthProductService _healthProductService)
         {
-            productService = _productService;
+            this.healthProductService = _healthProductService;
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> All()
         {
-            var model = await productService.AllProductsListAsync();
+            var model = await healthProductService.ShowAllProducts();
 
             return View(model);
         }
@@ -27,11 +28,11 @@ namespace WebProject.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            return View(new AddProductViewModel());
+            return View(new AddHealthProductModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddProductViewModel model)
+        public async Task<IActionResult> Add(AddHealthProductModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -40,22 +41,22 @@ namespace WebProject.Controllers
 
             try
             {
-                await productService.AddProductForSaleAsync(model);
+                await healthProductService.AddHealthProduct(model);
 
-                return RedirectToAction("All", "Products");
+                return RedirectToAction("All", "HealthProduct");
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", "Something went wrong");
 
                 return View(model);
-            }
+            }    
         }
 
         public async Task<IActionResult> MyCart()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            var model = await productService.MyProductsAsync(userId);
+            var model = await healthProductService.ShowMyProducts(userId);
 
             return View("MyCart", model);
         }
@@ -65,32 +66,32 @@ namespace WebProject.Controllers
             try
             {
                 var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                await productService.AddProductToMyCollection(productId, userId);
+                await healthProductService.AddToCollection(productId, userId);
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction("All", "HealthProduct");
         }
 
-        public async Task<IActionResult> RemoveFromMyCollection(int productId)
+        public async Task<IActionResult> RemoveFromCollection(int productId)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            await productService.RemoveFromMyCollection(productId, userId);
+            await healthProductService.RemoveFromCollection(productId, userId);
 
             return RedirectToAction(nameof(MyCart));
         }
 
         public IActionResult Details(int productId)
         {
-            if(!productService.Exists(productId))
+            if(!healthProductService.Exists(productId))
             {
                 return BadRequest();
             }
 
-            var productModel = productService.ProductDetailsById(productId);
+            var productModel = healthProductService.ProductDetailsById(productId);
 
             return View(productModel);
         }

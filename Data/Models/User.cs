@@ -7,5 +7,7 @@ namespace WebProject.Data.Models
         public ICollection<UserGame> UserGames { get; set; } = new List<UserGame>();
 
         public ICollection<UserProduct> UserProducts { get; set; } = new List<UserProduct>();
+
+        public ICollection<UserHealthProduct> UsersHealthProducts { get; set; } = new List<UserHealthProduct>();
     }
 }

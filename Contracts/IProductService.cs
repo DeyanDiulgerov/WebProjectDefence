@@ -1,4 +1,4 @@
-﻿using WebProject.Models;
+﻿using WebProject.Models.GamingProductViewModel;
 
 namespace WebProject.Contracts
 {
@@ -13,5 +13,9 @@ namespace WebProject.Contracts
         Task AddProductToMyCollection(int productId, string userId);
 
         Task RemoveFromMyCollection(int productId, string userId);
+
+
+        bool Exists(int productId);
+        ProductListViewModel ProductDetailsById(int productId);
     }
 }

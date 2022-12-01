@@ -17,6 +17,7 @@ namespace WebProject.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<HealthProduct> HealthProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,6 +28,10 @@ namespace WebProject.Data
             builder
                 .Entity<UserProduct>()
                 .HasKey(x => new { x.UserId, x.ProductId });
+
+            builder
+               .Entity<UserHealthProduct>()
+               .HasKey(x => new { x.UserId, x.HealthProductId });
 
             builder
                 .Entity<User>()

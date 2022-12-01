@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
-using WebProject.Models;
+using WebProject.Models.GameViewModel;
 
 namespace WebProject.Services
 {
@@ -47,8 +47,6 @@ namespace WebProject.Services
             var game = await context.Games.FirstOrDefaultAsync(g => g.Id == gameId);
 
             if(user == null)
-
-
             {
                 throw new ArgumentException("We couldnt find a user with such information");
             }
@@ -71,6 +69,34 @@ namespace WebProject.Services
                 await context.SaveChangesAsync();
             }
 
+        }
+
+        public bool Exists(int gameId)
+        {
+            return context.Games.Any(g => g.Id == gameId);
+        }
+
+        public GameListViewModel GameDetailsById(int gameId)
+        {
+            var game = context.Games
+                .Where(g => g.Id == gameId)
+                .Select(g => new GameListViewModel()
+                {
+                    Id = g.Id,
+                    GameName = g.GameName,
+                    Developer = g.Developer,
+                    Publisher = g.Publisher,
+                    ImageUrl = g.ImageUrl,
+                    Description = g.Description,
+                    ReleaseDate = g.ReleaseDate,
+                    Price = g.Price,
+                    DiscountPrice = g.DiscountPrice,
+                    FirstWeekSales = g.Sales,
+                    Genre = g.Genre.Name,
+                    Rating = g.Rating
+                }).FirstOrDefault();
+
+            return game;
         }
 
         public async Task<IEnumerable<Feature>> GetFeaturesAsync()

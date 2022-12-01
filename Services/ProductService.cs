@@ -2,7 +2,7 @@
 using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
-using WebProject.Models;
+using WebProject.Models.GamingProductViewModel;
 
 namespace WebProject.Services
 {
@@ -34,39 +34,6 @@ namespace WebProject.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task AddProductToMyCollection(int productId, string userId)
-        {
-            var user = await context.Users
-                .Where(u => u.Id == userId)
-                .Include(u => u.UserProducts)
-                .FirstOrDefaultAsync();            
-
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
-
-            if (user == null)
-            {
-                throw new ArgumentException("We couldnt find a user with such information");
-            }
-
-            if (product == null)
-            {
-                throw new ArgumentException("We couldnt find a product with such information");
-            }
-
-            if(!user.UserProducts.Any(p => p.ProductId == productId))
-            {
-                user.UserProducts.Add(new UserProduct()
-                {
-                    UserId = user.Id,
-                    User = user,
-                    ProductId = product.Id,
-                    Product = product
-                });
-
-                await context.SaveChangesAsync();
-            }
-
-        }
 
         public async Task<IEnumerable<ProductListViewModel>> AllProductsListAsync()
         {
@@ -115,6 +82,38 @@ namespace WebProject.Services
                     Sales = p.Product.Sales
                 });
         }
+        public async Task AddProductToMyCollection(int productId, string userId)
+        {
+            var user = await context.Users
+                .Where(u => u.Id == userId)
+                .Include(u => u.UserProducts)
+                .FirstOrDefaultAsync();            
+
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("We couldnt find a user with such information");
+            }
+
+            if (product == null)
+            {
+                throw new ArgumentException("We couldnt find a product with such information");
+            }
+
+            if(!user.UserProducts.Any(p => p.ProductId == productId))
+            {
+                user.UserProducts.Add(new UserProduct()
+                {
+                    UserId = user.Id,
+                    User = user,
+                    ProductId = product.Id,
+                    Product = product
+                });
+
+                await context.SaveChangesAsync();
+            }
+        }
 
         public async Task RemoveFromMyCollection(int productId, string userId)
         {
@@ -138,6 +137,31 @@ namespace WebProject.Services
 
                 await context.SaveChangesAsync();
             }
+        }
+
+        public bool Exists(int productId)
+        {
+            return context.Products.Any(p => p.Id == productId);
+        }
+
+        public ProductListViewModel ProductDetailsById(int productId)
+        {
+            var product = context.Products
+                .Where(p => p.Id == productId)
+                .Select(p => new ProductListViewModel()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Company = p.Company,
+                    Description = p.Description,
+                    AvailableFrom = p.AvailableFrom,
+                    Price = p.Price,
+                    DiscountPrice = p.DiscountPrice,
+                    Sales = p.Sales,
+                    ImageUrl = p.ImageUrl,
+                }).FirstOrDefault();
+
+            return product;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebProject.Data.Models;
 
-namespace WebProject.Models
+namespace WebProject.Models.GamingProductViewModel
 {
     public class AddProductViewModel
     {

@@ -118,7 +118,7 @@
                             <div class="gamestore_dropdown-content">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Gaming Products for sale</a>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Add">Add Product to store</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="MyCart">My Products</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="MyCart">My favourite products</a>
                             </div>
                         </div>
                         <div class="gamestore_dropdown">
@@ -129,7 +129,18 @@
                             <div class="gamestore_dropdown-content">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="All">All Games for sale</a>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="Add">Add Game to store</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="MyCart">My Games</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="MyCart">My favourite games</a>
+                            </div>
+                        </div>
+                        <div class="gamestore_dropdown">
+                            <button class="gamestore_dropbtn">
+                                Health Products
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="gamestore_dropdown-content">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="HealthProduct" asp-action="All">All health products for sale</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="HealthProduct" asp-action="Add">Suggest a health product to the store</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="HealthProduct" asp-action="MyCart">My favourite healthy products</a>
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebProject.Data;
 
@@ -11,9 +12,10 @@ using WebProject.Data;
 namespace WebProject.Data.Migrations
 {
     [DbContext(typeof(GameStoreDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221123132153_HealthProductsMigration")]
+    partial class HealthProductsMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -500,21 +502,6 @@ namespace WebProject.Data.Migrations
                     b.ToTable("UserGame");
                 });
 
-            modelBuilder.Entity("WebProject.Data.Models.UserHealthProduct", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("HealthProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "HealthProductId");
-
-                    b.HasIndex("HealthProductId");
-
-                    b.ToTable("UserHealthProduct");
-                });
-
             modelBuilder.Entity("WebProject.Data.Models.UserProduct", b =>
                 {
                     b.Property<string>("UserId")
@@ -523,7 +510,12 @@ namespace WebProject.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("HealthProductId")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "ProductId");
+
+                    b.HasIndex("HealthProductId");
 
                     b.HasIndex("ProductId");
 
@@ -623,27 +615,12 @@ namespace WebProject.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebProject.Data.Models.UserHealthProduct", b =>
-                {
-                    b.HasOne("WebProject.Data.Models.HealthProduct", "HealthProduct")
-                        .WithMany("UsersHealthProducts")
-                        .HasForeignKey("HealthProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebProject.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HealthProduct");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WebProject.Data.Models.UserProduct", b =>
                 {
+                    b.HasOne("WebProject.Data.Models.HealthProduct", null)
+                        .WithMany("UsersProducts")
+                        .HasForeignKey("HealthProductId");
+
                     b.HasOne("WebProject.Data.Models.Product", "Product")
                         .WithMany("UsersProducts")
                         .HasForeignKey("ProductId")
@@ -672,7 +649,7 @@ namespace WebProject.Data.Migrations
 
             modelBuilder.Entity("WebProject.Data.Models.HealthProduct", b =>
                 {
-                    b.Navigation("UsersHealthProducts");
+                    b.Navigation("UsersProducts");
                 });
 
             modelBuilder.Entity("WebProject.Data.Models.Product", b =>

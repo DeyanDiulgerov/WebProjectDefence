@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GameListViewModel>
+﻿@using WebProject.Models.GameViewModel
+@model IEnumerable<GameListViewModel>
 
 @{
     ViewBag.Title = "All Games";
@@ -31,6 +32,9 @@
                 <p class="mb-0">DiscountPrice: @game.DiscountPrice</p>
             </div>
 
+            <form class="input-group-sm" asp-route-gameId="@game.Id" asp-controller="Games" asp-action="Details" method="post">
+                <input type="submit" value="Details" class="fs-6 btn btn-success mb-3 p-2" />
+            </form>
             <form class="input-group-sm" asp-route-gameId="@game.Id" asp-controller="Games" asp-action="AddToCollection" method="post">
                 <input type="submit" value="Add to my cart" class="fs-6 btn btn-success mb-3 p-2" />
             </form>

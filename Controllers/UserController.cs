@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebProject.Data.Models;
-using WebProject.Models;
+using WebProject.Models.UserViewModel;
 
 namespace WebProject.Controllers
 {
@@ -88,7 +88,7 @@ namespace WebProject.Controllers
 
                 if(result.Succeeded)
                 {
-                    return RedirectToAction("All", "Games");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 

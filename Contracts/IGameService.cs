@@ -1,5 +1,5 @@
 ﻿using WebProject.Data.Models;
-using WebProject.Models;
+using WebProject.Models.GameViewModel;
 
 namespace WebProject.Contracts
 {
@@ -18,5 +18,9 @@ namespace WebProject.Contracts
         Task AddToMyCartAsync(int gameId, string userId);
 
         Task RemoveFromMyCartAsync(int gameId, string userId);
+
+        bool Exists(int gameId);
+
+        GameListViewModel GameDetailsById(int gameId);
     }
 }

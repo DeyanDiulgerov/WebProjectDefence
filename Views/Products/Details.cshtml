@@ -1,0 +1,49 @@
+﻿@using WebProject.Models.GamingProductViewModel
+@model ProductListViewModel
+
+@{
+    ViewBag.Title = "Gaming product details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<body background="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWoY9TpSx88HqnbRAqMnQCq08pSvv5MLNFmg&usqp=CAU">
+</body>
+
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-4">
+            <img class="card-img-top" style="width: 25rem;"
+                 src="@Model.ImageUrl" alt="Product Image">
+        </div>
+        <div class="card col-8 border-0">
+            <p style="font-size:25px;"><u>@Model.Name</u></p>
+            <p>Publisher: <b>@Model.Company</b></p>
+            <p>
+                Price:
+                <b>@String.Format("{0:f2}", Model.Price) BGN</b>
+                Discount Price:
+                <b>@String.Format("{0:f2}", Model.DiscountPrice) BGN</b>
+            </p>
+            <p>@Model.Description</p>
+            <div class="form-inline">
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-warning" asp-controller="Products" asp-action="Edit"
+                   asp-route-id="@Model.Id">Edit</a>
+                    <a class="ml-2 btn btn-danger" asp-controller="Products" asp-action="Delete"
+                   asp-route-id="@Model.Id">Delete</a>
+                }
+            </div>
+            <p></p>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Additional Info</h5>
+                    <p class="card-text">AvailableFrom:  @Model.AvailableFrom</p>
+                    <p class="card-text">Sales: @Model.Sales</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

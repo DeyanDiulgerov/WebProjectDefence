@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using WebProject.Data.Models;
 
-namespace WebProject.Models
+namespace WebProject.Models.GameViewModel
 {
     public class AddGameViewModel
     {

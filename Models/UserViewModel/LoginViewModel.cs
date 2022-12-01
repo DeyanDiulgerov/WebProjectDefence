@@ -1,4 +1,4 @@
-﻿namespace WebProject.Models
+﻿namespace WebProject.Models.UserViewModel
 {
     public class LoginViewModel
     {
