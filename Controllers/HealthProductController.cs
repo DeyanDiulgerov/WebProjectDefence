@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebProject.Contracts;
+using WebProject.Models.GamingProductViewModel;
 using WebProject.Models.HealthProductViewModel;
 
 namespace WebProject.Controllers
@@ -94,6 +95,98 @@ namespace WebProject.Controllers
             var productModel = healthProductService.ProductDetailsById(productId);
 
             return View(productModel);
+        }
+
+        public IActionResult MyCartDetails(int productId)
+        {
+            if (!healthProductService.Exists(productId))
+            {
+                return BadRequest();
+            }
+
+            var productModel = healthProductService.ProductDetailsById(productId);
+
+            return View(productModel);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            if(!healthProductService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            var healthProduct = healthProductService.ProductDetailsById(id);
+
+            var healthProductModel = new HealthProductListViewModel()
+            {
+                Name = healthProduct.Name,
+                ImageUrl = healthProduct.ImageUrl,
+                Description = healthProduct.Description,
+                AvailableFrom = healthProduct.AvailableFrom,
+                Price = healthProduct.Price,
+                DiscountPrice = healthProduct.DiscountPrice,
+                Rating = healthProduct.Rating
+            };
+
+            return View(healthProductModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, HealthProductListViewModel model)
+        {
+            if (!healthProductService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            healthProductService.Edit(id, model.Name, model.ImageUrl, model.Description, model.AvailableFrom,
+                model.Price, model.DiscountPrice, model.Rating);
+
+            return RedirectToAction(nameof(All));
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            if(!healthProductService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            var healthProduct = healthProductService.ProductDetailsById(id);
+
+            var healthProductModel = new HealthProductListViewModel()
+            {
+                Name = healthProduct.Name,
+                ImageUrl = healthProduct.ImageUrl,
+                Description = healthProduct.Description,
+                AvailableFrom = healthProduct.AvailableFrom,
+                Price = healthProduct.Price,
+                DiscountPrice = healthProduct.DiscountPrice,
+                Rating = healthProduct.Rating
+            };
+
+            return View(healthProductModel);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(HealthProductListViewModel model)
+        {
+            if (!healthProductService.Exists(model.Id))
+            {
+                return BadRequest();
+            }
+
+            healthProductService.Delete(model.Id);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

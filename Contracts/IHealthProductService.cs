@@ -18,5 +18,10 @@ namespace WebProject.Contracts
         bool Exists(int productId);
         HealthProductListViewModel ProductDetailsById(int productId);
 
+        void Edit(int productId, string name, string imageUrl, string description, DateTime availableFrom, decimal price,
+            decimal discountPrice, decimal rating);
+
+        void Delete(int productId);
+
     }
 }

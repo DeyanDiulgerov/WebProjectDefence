@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
 using WebProject.Models.HealthProductViewModel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WebProject.Services
 {
@@ -157,6 +159,30 @@ namespace WebProject.Services
                 }).FirstOrDefault();
 
             return product;
+        }
+
+        public void Edit(int productId, string name, string imageUrl, string description, DateTime availableFrom,
+            decimal price, decimal discountPrice, decimal rating)
+        {
+            var product = context.HealthProducts.Find(productId);
+
+            product.Name = name;
+            product.ImageUrl = imageUrl;
+            product.Description = description;
+            product.AvailableFrom = availableFrom;
+            product.Price = price;
+            product.DiscountPrice = discountPrice;
+            product.Rating = rating;
+
+            context.SaveChanges();
+        }
+
+        public void Delete(int productId)
+        {
+            var product = context.HealthProducts.Find(productId);
+
+            context.HealthProducts.Remove(product);
+            context.SaveChanges();
         }
     }
 }
