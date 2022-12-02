@@ -101,6 +101,18 @@ namespace WebProject.Controllers
 
             return View(gameModel);
         }
+        public IActionResult MyCartDetails(int gameId)
+        {
+            if (!gameService.Exists(gameId))
+            {
+                return BadRequest();
+            }
+
+            var gameModel = gameService.GameDetailsById(gameId);
+
+            return View(gameModel);
+        }
+
 
         [HttpGet]
         public IActionResult Edit(int id)

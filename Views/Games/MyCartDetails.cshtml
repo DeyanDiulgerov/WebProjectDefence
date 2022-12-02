@@ -1,0 +1,45 @@
+﻿@using WebProject.Models.GameViewModel
+@model GameListViewModel
+
+@{
+    ViewBag.Title = "Game Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<body background="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWoY9TpSx88HqnbRAqMnQCq08pSvv5MLNFmg&usqp=CAU">
+</body>
+
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-4">
+            <img class="card-img-top" style="width: 25rem;"
+                 src="@Model.ImageUrl" alt="Game Image">
+        </div>
+        <div class="card col-8 border-0">
+            <p style="font-size:25px;"><u>@Model.GameName</u></p>
+            <p>Developer: <b>@Model.Developer</b></p>
+            <p>Publisher: <b>@Model.Publisher</b></p>
+            <p>
+                Price:
+                <b>@String.Format("{0:f2}", Model.Price) BGN</b>
+                Discount Price:
+                <b>@String.Format("{0:f2}", Model.DiscountPrice) BGN</b>
+            </p>
+            <p>@Model.Description</p>
+            <p>Genre: <b>@Model.Genre</b></p>
+            <div class="form-inline">
+            </div>
+            <p></p>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Game Success</h5>
+                    <p class="card-text">Rating:  @Model.Rating</p>
+                    <p class="card-text">First Week Sales: @Model.FirstWeekSales</p>
+                    <p class="card-text">Release Date: @Model.ReleaseDate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

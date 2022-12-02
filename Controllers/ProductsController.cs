@@ -95,6 +95,18 @@ namespace WebProject.Controllers
             return View(productModel);
         }
 
+        public IActionResult MyCartDetails(int productId)
+        {
+            if (!productService.Exists(productId))
+            {
+                return BadRequest();
+            }
+
+            var productModel = productService.ProductDetailsById(productId);
+
+            return View(productModel);
+        }
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
