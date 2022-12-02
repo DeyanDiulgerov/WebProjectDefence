@@ -94,5 +94,49 @@ namespace WebProject.Controllers
 
             return View(productModel);
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            if(!productService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            var product = productService.ProductDetailsById(id);
+
+            var productModel = new ProductListViewModel()
+            {
+                Name = product.Name,
+                Company = product.Company,
+                Description = product.Description,
+                AvailableFrom = product.AvailableFrom,
+                Price = product.Price,
+                DiscountPrice = product.DiscountPrice,
+                ImageUrl = product.ImageUrl,
+                Sales = product.Sales
+            };
+
+            return View(productModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, ProductListViewModel model)
+        {
+            if (!productService.Exists(id))
+            {
+                return View();
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            productService.Edit(id, model.Name, model.Company, model.ImageUrl, model.Description,
+                model.AvailableFrom, model.Sales, model.Price, model.DiscountPrice);
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }

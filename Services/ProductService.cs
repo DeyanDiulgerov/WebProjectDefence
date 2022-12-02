@@ -163,5 +163,30 @@ namespace WebProject.Services
 
             return product;
         }
+
+        public void Edit(int productId, string name, string company, string imageUrl, string description,
+            DateTime availableFrom, int? sales, decimal price, decimal discountPrice)
+        {
+            var product = context.Products.Find(productId);
+
+            product.Name = name;
+            product.Company = company;
+            product.ImageUrl = imageUrl;
+            product.Description = description;
+            product.AvailableFrom = availableFrom;
+            product.Sales = sales;
+            product.Price = price;
+            product.DiscountPrice = discountPrice;
+
+            context.SaveChanges();
+        }
+
+        public void Delete(int productId)
+        {
+            var product = context.Products.Find(productId);
+
+            context.Products.Remove(product);
+            context.SaveChanges();
+        }
     }
 }
