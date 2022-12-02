@@ -131,9 +131,9 @@ namespace WebProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int Id, GameListViewModel model)
+        public IActionResult Edit(int id, GameListViewModel model)
         {
-            if (!gameService.Exists(Id))
+            if (!gameService.Exists(id))
             {
                 return View();
             }
@@ -143,11 +143,11 @@ namespace WebProject.Controllers
                 return View(model);
             }
 
-            gameService.Edit(Id, model.GameName, model.Developer, model.Publisher, model.ImageUrl
+            gameService.Edit(id, model.GameName, model.Developer, model.Publisher, model.ImageUrl
                 , model.Description, model.ReleaseDate, model.FirstWeekSales, model.Price, model.DiscountPrice,
                 model.Rating, model.Genre);
 
-            return RedirectToAction(nameof(Details), new { id = Id });
+            return RedirectToAction(nameof(All));
         }
 
         [HttpGet]
