@@ -1,0 +1,22 @@
+﻿@using WebProject.Models.GamingProductViewModel
+@model ProductListViewModel
+
+@{
+    ViewBag.Title = "Are you sure u want to delete this product";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<form asp-action="Delete">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="card-img-top" src="@Model.ImageUrl" alt="Product Image">
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <input type="submit" value="Delete" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>

@@ -138,5 +138,43 @@ namespace WebProject.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            if(!productService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            var product = productService.ProductDetailsById(id);
+
+            var productModel = new ProductListViewModel()
+            {
+                Name =product.Name,
+                Company = product.Company,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                AvailableFrom = product.AvailableFrom,
+                Price = product.Price,
+                DiscountPrice = product.DiscountPrice,
+                Sales = product.Sales
+            };
+
+            return View(productModel);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(ProductListViewModel model)
+        {
+            if (!productService.Exists(model.Id))
+            {
+                return BadRequest();
+            }
+
+            productService.Delete(model.Id);
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }
