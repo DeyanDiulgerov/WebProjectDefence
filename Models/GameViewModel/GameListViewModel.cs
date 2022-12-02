@@ -34,6 +34,6 @@ namespace WebProject.Models.GameViewModel
 
         public decimal Rating { get; set; }
 
-        public string? Genre { get; set; }
+        public string Genre { get; set; } = null!;
     }
 }

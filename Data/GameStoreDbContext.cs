@@ -14,7 +14,6 @@ namespace WebProject.Data
 
         public DbSet<Developer> Developers { get; set; }
         public DbSet<Feature> Features { get; set; }
-        public DbSet<Genre> Genres { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<HealthProduct> HealthProducts { get; set; }
@@ -45,7 +44,7 @@ namespace WebProject.Data
                 .HasMaxLength(60)
                 .IsRequired();
 
-            builder
+            /*builder
                 .Entity<Genre>()
                 .HasData(new Genre()
                 {
@@ -91,7 +90,7 @@ namespace WebProject.Data
                 {
                     Id = 9,
                     Name = "Platformer"
-                });
+                });*/
 
             base.OnModelCreating(builder);
         }

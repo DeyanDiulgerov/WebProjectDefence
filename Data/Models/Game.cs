@@ -30,6 +30,9 @@ namespace WebProject.Data.Models
         [StringLength(500)]
         public string Description { get; set; } = null!;
 
+        [Required]
+        public string Genre { get; set; } = null!;
+
         public DateTime ReleaseDate { get; set; }
 
         public int? Sales { get; set; }
@@ -46,12 +49,8 @@ namespace WebProject.Data.Models
 
         public IEnumerable<Feature> Features { get; set; } = new List<Feature>();
 
-        [ForeignKey(nameof(Genre))]
-        public int? GenreId { get; set; }
 
-        public Genre? Genre { get; set; }
-
-        public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();
+        /*public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();*/
 
         public IEnumerable<UserGame> UsersGames { get; set; } = new List<UserGame>();
     }

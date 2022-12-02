@@ -30,7 +30,8 @@ namespace WebProject.Services
                 Sales = model.FirstWeekSales,
                 Price = model.Price,
                 DiscountPrice = model.DiscountPrice,
-                Rating = model.Rating
+                Rating = model.Rating,
+                Genre = model.Genre
             };
 
             await context.Games.AddAsync(game);
@@ -80,7 +81,7 @@ namespace WebProject.Services
         }
 
         public void Edit(int gameId, string gameName, string developer, string publisher, string imageUrl, string description,
-            DateTime releaseDate, int? firstWeekSales, decimal price, decimal? discountPrice, decimal rating, string? genre)
+            DateTime releaseDate, int? firstWeekSales, decimal price, decimal? discountPrice, decimal rating, string genre)
         {
             var game = context.Games.Find(gameId);
 
@@ -94,7 +95,7 @@ namespace WebProject.Services
             game.Price = price;
             game.DiscountPrice = discountPrice;
             game.Rating = rating;
-            game.Genre.Name = genre;
+            game.Genre = genre;
 
             context.SaveChanges();
         }
@@ -120,7 +121,7 @@ namespace WebProject.Services
                     Price = g.Price,
                     DiscountPrice = g.DiscountPrice,
                     FirstWeekSales = g.Sales,
-                    Genre = g.Genre.Name,
+                    Genre = g.Genre,
                     Rating = g.Rating
                 }).FirstOrDefault();
 
@@ -131,19 +132,12 @@ namespace WebProject.Services
         {
             return await context.Features.ToListAsync();
         }
-
-        public async Task<IEnumerable<Genre>> GetGenresAsync()
-        {
-            return await context.Genres.ToListAsync();
-        }
-
         public async Task<IEnumerable<GameListViewModel>> MyCartGamesAsync(string userId)
         {
             var user = await context.Users
                 .Where(u => u.Id == userId)
                 .Include(u => u.UserGames)
                 .ThenInclude(ug => ug.Game)
-                .ThenInclude(g => g.Genre)
                 .FirstOrDefaultAsync();
 
             if (user == null)
@@ -159,7 +153,7 @@ namespace WebProject.Services
                     Developer = g.Game.Developer,
                     ImageUrl = g.Game.ImageUrl,
                     Id = g.Game.Id,
-                    Genre = g.Game.Genre?.Name,
+                    Genre = g.Game.Genre,
                     Description = g.Game.Description,
                     ReleaseDate = g.Game.ReleaseDate,
                     FirstWeekSales = g.Game.Sales,
@@ -196,7 +190,6 @@ namespace WebProject.Services
         public async Task<IEnumerable<GameListViewModel>> ShowAllGamesAsync()
         {
             var games = await context.Games
-                .Include(g => g.Genre)
                 .ToListAsync();
 
             return games
@@ -209,7 +202,7 @@ namespace WebProject.Services
                     Description = g.Description,
                     ReleaseDate = g.ReleaseDate,
                     FirstWeekSales = g.Sales,
-                    Genre = g?.Genre?.Name,
+                    Genre = g.Genre,
                     Price = g.Price,
                     Id = g.Id,
                     DiscountPrice = g.DiscountPrice,

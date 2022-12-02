@@ -2,7 +2,7 @@
 @model GameListViewModel
 
 @{
-    ViewBag.Title = "Delete Game";
+    ViewBag.Title = "Are you sure u want to delete the game";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -14,14 +14,6 @@
             <img class="card-img-top" src="@Model.ImageUrl" alt="Game Image">
         </div>
         <div class="col-md-8">
-            <div class="form-group">
-                <label asp-for="GameName" class="control-label"></label>
-                <input asp-for="GameName" class="form-control" disabled="disabled" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Developer" class="control-label"></label>
-                <input asp-for="Developer" class="form-control" disabled="disabled" />
-            </div>
             <div class="form-group">
                 <input type="submit" value="Delete" class="btn btn-primary" />
             </div>

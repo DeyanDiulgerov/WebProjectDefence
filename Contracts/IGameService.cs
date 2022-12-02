@@ -5,7 +5,6 @@ namespace WebProject.Contracts
 {
     public interface IGameService
     {
-        Task<IEnumerable<Genre>> GetGenresAsync();
 
         Task<IEnumerable<Feature>> GetFeaturesAsync();
 

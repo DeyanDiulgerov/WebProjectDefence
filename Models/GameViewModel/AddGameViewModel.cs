@@ -48,7 +48,7 @@ namespace WebProject.Models.GameViewModel
         [Range(typeof(decimal), "0.0", "10.0", ConvertValueInInvariantCulture = true)]
         public decimal Rating { get; set; }
 
-        public int GenreId { get; set; }
-        public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();
+        [Required]
+        public string Genre { get; set; } = null!;
     }
 }

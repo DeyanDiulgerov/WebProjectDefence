@@ -32,14 +32,9 @@ namespace WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
-            var model = new AddGameViewModel()
-            {
-                Genres = await gameService.GetGenresAsync()
-            };
-
-            return View(model);
+            return View();
         }
 
         [HttpPost]
