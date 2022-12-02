@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Security.Policy;
 using WebProject.Contracts;
 using WebProject.Data;
+using WebProject.Data.Models;
 using WebProject.Models.GameViewModel;
 
 namespace WebProject.Controllers
@@ -103,6 +105,95 @@ namespace WebProject.Controllers
             var gameModel = gameService.GameDetailsById(gameId);
 
             return View(gameModel);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            if (!gameService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            var game = gameService.GameDetailsById(id);
+
+            var gameModel = new GameListViewModel()
+            {
+                GameName = game.GameName,
+                Developer = game.Developer,
+                Publisher = game.Publisher,
+                Description = game.Description,
+                ImageUrl = game.ImageUrl,
+                ReleaseDate = game.ReleaseDate,
+                FirstWeekSales = game.FirstWeekSales,
+                Price = game.Price,
+                DiscountPrice = game.DiscountPrice,
+                Rating = game.Rating,
+                Genre = game.Genre,
+            };
+
+            return View(gameModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int Id, GameListViewModel model)
+        {
+            if (!gameService.Exists(Id))
+            {
+                return View();
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            gameService.Edit(Id, model.GameName, model.Developer, model.Publisher, model.ImageUrl
+                , model.Description, model.ReleaseDate, model.FirstWeekSales, model.Price, model.DiscountPrice,
+                model.Rating, model.Genre);
+
+            return RedirectToAction(nameof(Details), new { id = Id });
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            if(!gameService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            var game = gameService.GameDetailsById(id);
+
+            var gameModel = new GameListViewModel()
+            {
+                GameName = game.GameName,
+                Developer = game.Developer,
+                Publisher = game.Publisher,
+                Description = game.Description,
+                ImageUrl = game.ImageUrl,
+                ReleaseDate = game.ReleaseDate,
+                FirstWeekSales = game.FirstWeekSales,
+                Price = game.Price,
+                DiscountPrice = game.DiscountPrice,
+                Rating = game.Rating,
+                Genre = game.Genre,
+            };
+
+            return View(gameModel);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(GameListViewModel model)
+        {
+            if (!gameService.Exists(model.Id))
+            {
+                return BadRequest();
+            }
+
+            gameService.Delete(model.Id);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

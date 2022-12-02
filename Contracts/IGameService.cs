@@ -22,5 +22,10 @@ namespace WebProject.Contracts
         bool Exists(int gameId);
 
         GameListViewModel GameDetailsById(int gameId);
+
+        void Edit(int gameId, string gameName, string developer, string publisher, string imageUrl, string description,
+            DateTime releaseDate, int? firstWeekSales, decimal price, decimal? discountPrice, decimal rating, string? genre);
+
+        void Delete(int gameId);
     }
 }

@@ -71,6 +71,34 @@ namespace WebProject.Services
 
         }
 
+        public void Delete(int gameId)
+        {
+            var game = context.Games.Find(gameId);
+
+            context.Games.Remove(game);
+            context.SaveChanges();
+        }
+
+        public void Edit(int gameId, string gameName, string developer, string publisher, string imageUrl, string description,
+            DateTime releaseDate, int? firstWeekSales, decimal price, decimal? discountPrice, decimal rating, string? genre)
+        {
+            var game = context.Games.Find(gameId);
+
+            game.GameName = gameName;
+            game.Developer = developer;
+            game.Publisher = publisher;
+            game.Description = description;
+            game.ImageUrl = imageUrl;
+            game.ReleaseDate = releaseDate;
+            game.Sales = firstWeekSales;
+            game.Price = price;
+            game.DiscountPrice = discountPrice;
+            game.Rating = rating;
+            game.Genre.Name = genre;
+
+            context.SaveChanges();
+        }
+
         public bool Exists(int gameId)
         {
             return context.Games.Any(g => g.Id == gameId);
