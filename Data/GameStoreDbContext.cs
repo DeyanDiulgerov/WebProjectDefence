@@ -17,6 +17,8 @@ namespace WebProject.Data
         public DbSet<Game> Games { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<HealthProduct> HealthProducts { get; set; }
+        public DbSet<Administrator> Administrators { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
