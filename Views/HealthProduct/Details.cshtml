@@ -1,5 +1,8 @@
-﻿@using WebProject.Models.HealthProductViewModel
+﻿@using WebProject.Contracts
+@using WebProject.Models.HealthProductViewModel
+@using WebProject.Infrastructure
 @model HealthProductListViewModel
+@inject IAdminService adminService;
 
 @{
     ViewBag.Title = "Health product details";
@@ -27,7 +30,7 @@
             </p>
             <p>@Model.Description</p>
             <div class="form-inline">
-                @if (this.User.Identity.IsAuthenticated)
+                @if (adminService.IsAdmin(this.User.Id()))
                 {
                     <a class="btn btn-warning" asp-controller="HealthProduct" asp-action="Edit"
                    asp-route-id="@Model.Id">Edit</a>
