@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using WebProject.Contracts
+@using WebProject.Infrastructure
+@inject IAdminService adminService;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -143,15 +147,19 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="HealthProduct" asp-action="MyCart">My favourite healthy products</a>
                             </div>
                         </div>
-                        @*<div class="gamestore_dropdown">
+@*                        @if(adminService.IsAdmin(this.User.Id()))
+                        {
+                                <div class="gamestore_dropdown">
                             <button class="gamestore_dropbtn">
-                                Become Agent
-                                <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="gamestore_dropdown-content">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="Become">Become Admin</a>
+                                    Potential Admins
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="gamestore_dropdown-content">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="All">All potential admins</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="Add">Add a potential admin</a>
+                                </div>
                             </div>
-                        </div>*@
+                        }*@
                     </div>
                     <partial name="_LoginPartial" />
                 </div>
