@@ -21,7 +21,7 @@ namespace WebProject.Controllers
         {
             if(adminService.IsAdmin(this.User.Id()))
             {
-                return BadRequest();
+                return RedirectToAction(nameof(GamesController.All), "Games");
             }
 
             return View();
