@@ -7,9 +7,21 @@ namespace WebProject.Data
 {
     public class GameStoreDbContext : IdentityDbContext<User>
     {
-        public GameStoreDbContext(DbContextOptions<GameStoreDbContext> options)
+        private bool SeedDb;
+
+        public GameStoreDbContext(DbContextOptions<GameStoreDbContext> options, bool seed = true )
             : base(options)
         {
+            if(this.Database.IsRelational())
+            {
+                this.Database.Migrate();
+            }
+            else
+            {
+                this.Database.EnsureCreated();
+            }
+
+            this.SeedDb = seed;
         }
 
         public DbSet<Developer> Developers { get; set; }

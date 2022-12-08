@@ -1,12 +1,16 @@
-﻿using WebProject.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
+using WebProject.Models.AdminViewModel;
 
 namespace WebProject.Services
 {
     public class AdminService : IAdminService
     {
         private readonly GameStoreDbContext context;
+
+        List<Administrator> potentialAdmins = new List<Administrator>();
 
         public AdminService(GameStoreDbContext _context)
         {
@@ -34,5 +38,45 @@ namespace WebProject.Services
         {
             return context.Administrators.Any(a => a.PhoneNumber == phoneNumber);
         }
+
+        /*public async Task AddPotentialAdmin(string userId, PotentialAdminViewModel model)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            var admin = new Administrator()
+            {
+                Id = model.Id,
+                PhoneNumber = model.PhoneNumber,
+            };
+
+            potentialAdmins.Add(admin);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Administrator>> potentialAdminsList(string userId)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            var admins = potentialAdmins.ToList();
+
+            return admins.Select(a => new Administrator()
+            {
+                Id = a.Id,
+                PhoneNumber = a.PhoneNumber,
+            });
+        }
+
+        public async Task<Administrator> Approve(string userId)
+        {
+            var potentialAdmins = await potentialAdminsList(userId);
+
+            var admin = potentialAdmins.FirstOrDefault(a => a.Id == userId);
+
+            await context.Administrators.AddAsync(admin);
+            await context.SaveChangesAsync();
+
+            return admin;
+        }*/
+
     }
 }

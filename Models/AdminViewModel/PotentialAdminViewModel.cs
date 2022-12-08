@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using WebProject.Data.Models;
 
-namespace WebProject.Data.Models
+namespace WebProject.Models.AdminViewModel
 {
-    public class Administrator
+    public class PotentialAdminViewModel
     {
-        [Key]
         public string Id { get; set; } = null!;
 
         [Required]
