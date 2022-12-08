@@ -11,6 +11,8 @@ namespace WebProject.Contracts
 
         void Create(string userId, string phoneNumber);
 
+        int GetAdminId(string userId);
+
 
         /*Task<Administrator> Approve(string userId);
 

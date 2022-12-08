@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
@@ -27,6 +28,13 @@ namespace WebProject.Services
 
             context.Administrators.Add(admin);
             context.SaveChanges();
+        }
+
+        public int GetAdminId(string userId)
+        {
+            var adminId = context.Administrators.FirstOrDefault(a => a.UserId == userId).Id;
+
+            return adminId;
         }
 
         public bool IsAdmin(string userId)

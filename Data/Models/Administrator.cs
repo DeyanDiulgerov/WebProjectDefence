@@ -6,7 +6,7 @@ namespace WebProject.Data.Models
     public class Administrator
     {
         [Key]
-        public string Id { get; set; } = null!;
+        public int Id { get; set; }
 
         [Required]
         [StringLength(15)]
