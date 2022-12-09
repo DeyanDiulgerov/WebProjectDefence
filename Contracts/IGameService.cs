@@ -5,9 +5,6 @@ namespace WebProject.Contracts
 {
     public interface IGameService
     {
-
-        Task<IEnumerable<Feature>> GetFeaturesAsync();
-
         Task AddGameToStoreAsync(AddGameViewModel model);
 
         Task<IEnumerable<GameListViewModel>> ShowAllGamesAsync();

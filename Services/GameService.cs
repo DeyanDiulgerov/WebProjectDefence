@@ -128,10 +128,6 @@ namespace WebProject.Services
             return game;
         }
 
-        public async Task<IEnumerable<Feature>> GetFeaturesAsync()
-        {
-            return await context.Features.ToListAsync();
-        }
         public async Task<IEnumerable<GameListViewModel>> MyCartGamesAsync(string userId)
         {
             var user = await context.Users
