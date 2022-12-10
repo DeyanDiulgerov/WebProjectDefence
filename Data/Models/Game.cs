@@ -47,8 +47,6 @@ namespace WebProject.Data.Models
         [Range(0.0, 10.0)]
         public decimal Rating { get; set; }
 
-        public IEnumerable<Feature> Features { get; set; } = new List<Feature>();
-
 
         /*public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();*/
 

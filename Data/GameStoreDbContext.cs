@@ -8,11 +8,6 @@ namespace WebProject.Data
     public class GameStoreDbContext : IdentityDbContext<User>
     {
         private bool SeedDb;
-        private const decimal TestPrice = 10.0M;
-        private const decimal TestDiscountPrice = 8.0M;
-        private const decimal TestRating = 9.9M;
-        private int? TestSales = 100;
-        private DateTime TestReleaseDate = DateTime.Now;
 
         public GameStoreDbContext(DbContextOptions<GameStoreDbContext> options, bool seed = true )
             : base(options)
@@ -30,7 +25,6 @@ namespace WebProject.Data
         }
 
         public DbSet<Developer> Developers { get; set; }
-        public DbSet<Feature> Features { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<HealthProduct> HealthProducts { get; set; }
