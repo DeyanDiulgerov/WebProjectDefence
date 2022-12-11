@@ -32,7 +32,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IGameService, GameService>();
-builder.Services.AddScoped<IGamingProductService, GamingProductService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IHealthProductService, HealthProductService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
