@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebProject.Data;
 
@@ -11,9 +12,10 @@ using WebProject.Data;
 namespace WebProject.Data.Migrations
 {
     [DbContext(typeof(GameStoreDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221211132946_ShoppingCartMigration")]
+    partial class ShoppingCartMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,7 +267,46 @@ namespace WebProject.Data.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("WebProject.Data.Models.GamingProduct", b =>
+            modelBuilder.Entity("WebProject.Data.Models.HealthProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("AvailableFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<decimal>("DiscountPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HealthProducts");
+                });
+
+            modelBuilder.Entity("WebProject.Data.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -306,46 +347,37 @@ namespace WebProject.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GamingProducts");
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("WebProject.Data.Models.HealthProduct", b =>
+            modelBuilder.Entity("WebProject.Data.Models.ShoppingCart", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("ItemId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("AvailableFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<decimal>("DiscountPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("CartId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("Rating")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.ToTable("HealthProducts");
+                    b.HasKey("ItemId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("WebProject.Data.Models.User", b =>
@@ -430,21 +462,6 @@ namespace WebProject.Data.Migrations
                     b.ToTable("UserGame");
                 });
 
-            modelBuilder.Entity("WebProject.Data.Models.UserGamingProduct", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("UserGamingProduct");
-                });
-
             modelBuilder.Entity("WebProject.Data.Models.UserHealthProduct", b =>
                 {
                     b.Property<string>("UserId")
@@ -458,6 +475,21 @@ namespace WebProject.Data.Migrations
                     b.HasIndex("HealthProductId");
 
                     b.ToTable("UserHealthProduct");
+                });
+
+            modelBuilder.Entity("WebProject.Data.Models.UserProduct", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("UserProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -522,6 +554,21 @@ namespace WebProject.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WebProject.Data.Models.ShoppingCart", b =>
+                {
+                    b.HasOne("WebProject.Data.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebProject.Data.Models.User", null)
+                        .WithMany("ShoppingCartProducts")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("WebProject.Data.Models.UserGame", b =>
                 {
                     b.HasOne("WebProject.Data.Models.Game", "Game")
@@ -537,25 +584,6 @@ namespace WebProject.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Game");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebProject.Data.Models.UserGamingProduct", b =>
-                {
-                    b.HasOne("WebProject.Data.Models.GamingProduct", "Product")
-                        .WithMany("UsersGamingProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebProject.Data.Models.User", "User")
-                        .WithMany("UserGamingProducts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -579,14 +607,28 @@ namespace WebProject.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WebProject.Data.Models.UserProduct", b =>
+                {
+                    b.HasOne("WebProject.Data.Models.Product", "Product")
+                        .WithMany("UsersProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebProject.Data.Models.User", "User")
+                        .WithMany("UserProducts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WebProject.Data.Models.Game", b =>
                 {
                     b.Navigation("UsersGames");
-                });
-
-            modelBuilder.Entity("WebProject.Data.Models.GamingProduct", b =>
-                {
-                    b.Navigation("UsersGamingProducts");
                 });
 
             modelBuilder.Entity("WebProject.Data.Models.HealthProduct", b =>
@@ -594,11 +636,18 @@ namespace WebProject.Data.Migrations
                     b.Navigation("UsersHealthProducts");
                 });
 
+            modelBuilder.Entity("WebProject.Data.Models.Product", b =>
+                {
+                    b.Navigation("UsersProducts");
+                });
+
             modelBuilder.Entity("WebProject.Data.Models.User", b =>
                 {
+                    b.Navigation("ShoppingCartProducts");
+
                     b.Navigation("UserGames");
 
-                    b.Navigation("UserGamingProducts");
+                    b.Navigation("UserProducts");
 
                     b.Navigation("UsersHealthProducts");
                 });

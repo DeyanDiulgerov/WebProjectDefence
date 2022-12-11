@@ -33,9 +33,9 @@
             <div class="form-inline">
                 @if (adminService.IsAdmin(this.User.Id()))
                 {
-                    <a class="btn btn-warning" asp-controller="Products" asp-action="Edit"
+                    <a class="btn btn-warning" asp-controller="GamingProducts" asp-action="Edit"
                    asp-route-id="@Model.Id">Edit</a>
-                    <a class="ml-2 btn btn-danger" asp-controller="Products" asp-action="Delete"
+                    <a class="ml-2 btn btn-danger" asp-controller="GamingProducts" asp-action="Delete"
                    asp-route-id="@Model.Id">Delete</a>
                 }
             </div>

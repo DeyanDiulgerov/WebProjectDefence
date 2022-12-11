@@ -7,11 +7,11 @@ using WebProject.Models.GamingProductViewModel;
 namespace WebProject.Controllers
 {
     [Authorize]
-    public class ProductsController : Controller
+    public class GamingProductsController : Controller
     {
-        private readonly IProductService productService;
-        public ProductsController
-            (IProductService _productService)
+        private readonly IGamingProductService productService;
+        public GamingProductsController
+            (IGamingProductService _productService)
         {
             productService = _productService;
         }
@@ -42,7 +42,7 @@ namespace WebProject.Controllers
             {
                 await productService.AddProductForSaleAsync(model);
 
-                return RedirectToAction("All", "Products");
+                return RedirectToAction("All", "GamingProducts");
             }
             catch (Exception)
             {

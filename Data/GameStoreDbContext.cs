@@ -26,7 +26,7 @@ namespace WebProject.Data
 
         public DbSet<Developer> Developers { get; set; }
         public DbSet<Game> Games { get; set; }
-        public DbSet<Product> Products { get; set; }
+        public DbSet<GamingProduct> GamingProducts { get; set; }
         public DbSet<HealthProduct> HealthProducts { get; set; }
         public DbSet<Administrator> Administrators { get; set; }
 
@@ -38,7 +38,7 @@ namespace WebProject.Data
                 .HasKey(x => new { x.UserId, x.GameId });
 
             builder
-                .Entity<UserProduct>()
+                .Entity<UserGamingProduct>()
                 .HasKey(x => new { x.UserId, x.ProductId });
 
             builder

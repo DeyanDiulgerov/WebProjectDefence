@@ -6,11 +6,11 @@ using WebProject.Models.GamingProductViewModel;
 
 namespace WebProject.Services
 {
-    public class ProductService : IProductService
+    public class GamingProductService : IGamingProductService
     {
         private readonly GameStoreDbContext context;
 
-        public ProductService
+        public GamingProductService
             (GameStoreDbContext _context)
         {
             context = _context;
@@ -18,7 +18,7 @@ namespace WebProject.Services
 
         public async Task AddProductForSaleAsync(AddProductViewModel model)
         {
-            var product = new Product()
+            var product = new GamingProduct()
             {
                 Name = model.Name,
                 Company = model.Company,
@@ -30,14 +30,14 @@ namespace WebProject.Services
                 Sales = model.Sales
             };
 
-            await context.Products.AddAsync(product);
+            await context.GamingProducts.AddAsync(product);
             await context.SaveChangesAsync();
         }
 
 
         public async Task<IEnumerable<ProductListViewModel>> AllProductsListAsync()
         {
-            var products = await context.Products
+            var products = await context.GamingProducts
                 .ToListAsync();
 
             return products
@@ -59,7 +59,7 @@ namespace WebProject.Services
         {
             var user = await context.Users
                 .Where(u => u.Id == userId)
-                .Include(u => u.UserProducts)
+                .Include(u => u.UserGamingProducts)
                 .ThenInclude(up => up.Product)
                 .FirstOrDefaultAsync();
 
@@ -68,7 +68,7 @@ namespace WebProject.Services
                 throw new ArgumentException("Invalid user information");
             }
 
-            return user.UserProducts
+            return user.UserGamingProducts
                 .Select(p => new ProductListViewModel()
                 {
                     Name = p.Product.Name,
@@ -86,10 +86,10 @@ namespace WebProject.Services
         {
             var user = await context.Users
                 .Where(u => u.Id == userId)
-                .Include(u => u.UserProducts)
+                .Include(u => u.UserGamingProducts)
                 .FirstOrDefaultAsync();            
 
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            var product = await context.GamingProducts.FirstOrDefaultAsync(p => p.Id == productId);
 
             if (user == null)
             {
@@ -101,9 +101,9 @@ namespace WebProject.Services
                 throw new ArgumentException("We couldnt find a product with such information");
             }
 
-            if(!user.UserProducts.Any(p => p.ProductId == productId))
+            if(!user.UserGamingProducts.Any(p => p.ProductId == productId))
             {
-                user.UserProducts.Add(new UserProduct()
+                user.UserGamingProducts.Add(new UserGamingProduct()
                 {
                     UserId = user.Id,
                     User = user,
@@ -119,7 +119,7 @@ namespace WebProject.Services
         {
             var user = await context.Users
                .Where(u => u.Id == userId)
-               .Include(u => u.UserProducts)
+               .Include(u => u.UserGamingProducts)
                .ThenInclude(up => up.Product)
                .FirstOrDefaultAsync();
 
@@ -129,11 +129,11 @@ namespace WebProject.Services
                 throw new ArgumentException("Invalid user information");
             }
 
-            var product = user.UserProducts.FirstOrDefault(p => p.ProductId == productId);
+            var product = user.UserGamingProducts.FirstOrDefault(p => p.ProductId == productId);
 
             if (product != null)
             {
-                user.UserProducts.Remove(product);
+                user.UserGamingProducts.Remove(product);
 
                 await context.SaveChangesAsync();
             }
@@ -141,12 +141,12 @@ namespace WebProject.Services
 
         public bool Exists(int productId)
         {
-            return context.Products.Any(p => p.Id == productId);
+            return context.GamingProducts.Any(p => p.Id == productId);
         }
 
         public ProductListViewModel ProductDetailsById(int productId)
         {
-            var product = context.Products
+            var product = context.GamingProducts
                 .Where(p => p.Id == productId)
                 .Select(p => new ProductListViewModel()
                 {
@@ -167,7 +167,7 @@ namespace WebProject.Services
         public void Edit(int productId, string name, string company, string imageUrl, string description,
             DateTime availableFrom, int? sales, decimal price, decimal discountPrice)
         {
-            var product = context.Products.Find(productId);
+            var product = context.GamingProducts.Find(productId);
 
             product.Name = name;
             product.Company = company;
@@ -183,9 +183,9 @@ namespace WebProject.Services
 
         public void Delete(int productId)
         {
-            var product = context.Products.Find(productId);
+            var product = context.GamingProducts.Find(productId);
 
-            context.Products.Remove(product);
+            context.GamingProducts.Remove(product);
             context.SaveChanges();
         }
     }

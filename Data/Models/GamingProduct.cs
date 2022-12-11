@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebProject.Data.Models
 {
-    public class Product
+    public class GamingProduct
     {
         [Key]
         public int Id { get; set; }
@@ -33,6 +33,6 @@ namespace WebProject.Data.Models
         [Range(0.0, 1000.0)]
         public decimal DiscountPrice { get; set; }
 
-        public IEnumerable<UserProduct> UsersProducts { get; set; } = new List<UserProduct>();
+        public IEnumerable<UserGamingProduct> UsersGamingProducts { get; set; } = new List<UserGamingProduct>();
     }
 }

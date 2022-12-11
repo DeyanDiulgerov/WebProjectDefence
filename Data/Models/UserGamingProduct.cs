@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebProject.Data.Models
 {
-    public class UserProduct
+    public class UserGamingProduct
     {
         [Required]
         [ForeignKey(nameof(User))]
@@ -13,6 +13,6 @@ namespace WebProject.Data.Models
         [Required]
         [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
-        public Product Product { get; set; }
+        public GamingProduct Product { get; set; }
     }
 }

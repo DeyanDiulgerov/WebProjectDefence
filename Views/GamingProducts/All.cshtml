@@ -2,7 +2,7 @@
 @model IEnumerable<ProductListViewModel>
 
 @{
-    ViewBag.Title = "My Cart/Products";
+    ViewBag.Title = "List of our products";
 }
 
 <h2 class="text-center text-white">@ViewBag.Title</h2>
@@ -11,10 +11,11 @@
 <body background="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWoY9TpSx88HqnbRAqMnQCq08pSvv5MLNFmg&usqp=CAU">
 </body>
 
+
 <div class="text-center row">
     @foreach (var product in Model)
     {
-        <div class="card col-4" style="width: 20rem; ">
+        <div class="card col-4" style="width: 20rem;">
             <img class="card-img-top" style="width: 18rem;"
              src="@product.ImageUrl" alt="Product Image">
             <div class="card-body">
@@ -28,11 +29,11 @@
                 <p class="mb-0">DiscountPrice: @product.DiscountPrice</p>
             </div>
 
-            <form class="input-group-sm" asp-route-productId="@product.Id" asp-controller="Products" asp-action="MyCartDetails" method="post">
+            <form class="input-group-sm" asp-route-productId="@product.Id" asp-controller="GamingProducts" asp-action="Details" method="post">
                 <input type="submit" value="Details" class="fs-6 btn btn-success mb-3 p-2" />
             </form>
-            <form class="input-group-sm" asp-route-productId="@product.Id" asp-controller="Products" asp-action="RemoveFromMyCollection" method="post">
-                <input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Remove from my cart" />
+            <form class="input-group-sm" asp-route-productId="@product.Id" asp-controller="GamingProducts" asp-action="AddToCollection" method="post">
+                <input type="submit" value="Add to my cart" class="fs-6 btn btn-success mb-3 p-2" />
             </form>
         </div>
     }

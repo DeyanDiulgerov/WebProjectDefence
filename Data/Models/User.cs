@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebProject.Data.Models
 {
@@ -6,7 +7,7 @@ namespace WebProject.Data.Models
     {
         public ICollection<UserGame> UserGames { get; set; } = new List<UserGame>();
 
-        public ICollection<UserProduct> UserProducts { get; set; } = new List<UserProduct>();
+        public ICollection<UserGamingProduct> UserGamingProducts { get; set; } = new List<UserGamingProduct>();
 
         public ICollection<UserHealthProduct> UsersHealthProducts { get; set; } = new List<UserHealthProduct>();
     }

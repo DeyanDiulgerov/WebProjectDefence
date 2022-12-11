@@ -2,7 +2,7 @@
 
 namespace WebProject.Contracts
 {
-    public interface IProductService
+    public interface IGamingProductService
     {
         Task<IEnumerable<ProductListViewModel>> AllProductsListAsync();
 
