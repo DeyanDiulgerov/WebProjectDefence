@@ -22,7 +22,7 @@ namespace WebProject.Controllers
         [HttpGet]
         public IActionResult Become()
         {
-            if(adminService.IsAdmin(this.User.Id()) || !User.Identity.IsAuthenticated || User.Identity.IsAuthenticated)
+            if(!adminService.IsAdmin(this.User.Id()))
             {
                 return RedirectToAction(nameof(GamesController.All), "Games");
             }
@@ -56,24 +56,33 @@ namespace WebProject.Controllers
             return RedirectToAction(nameof(GamesController.All), "Games");
         }
 
-        /*[HttpGet]
+        [HttpGet]
         public async Task<IActionResult> All()
         {
-            var model = await adminService.potentialAdminsList(this.User.Id());
+            if (!adminService.IsAdmin(this.User.Id()))
+            {
+                return RedirectToAction(nameof(GamesController.All), "Games");
+            }
+            var model = await adminService.potentialAdminsList();
 
             return View(model);
         }
 
-        public async Task<IActionResult> Approve(string userId)
+        public IActionResult Approve(int adminId)
         {
-            var admin = await adminService.Approve(userId);
+            adminService.Approve(adminId);
 
-            return RedirectToAction(nameof(GamesController.All), "Games");
+            //return RedirectToAction(nameof(GamesController.All), "Games");
+            return RedirectToAction(nameof(All));
         }
 
         [HttpGet]
         public IActionResult Add()
         {
+            if (!adminService.IsAdmin(this.User.Id()))
+            {
+                return RedirectToAction(nameof(GamesController.All), "Games");
+            }
             return View();
         }
 
@@ -85,9 +94,14 @@ namespace WebProject.Controllers
                 return View(model);
             }
 
+            if (!adminService.IsAdmin(this.User.Id()))
+            {
+                return RedirectToAction(nameof(GamesController.All), "Games");
+            }
+
             try
             {
-                await adminService.AddPotentialAdmin(this.User.Id(), model);
+                await adminService.AddPotentialAdmin(model.UserId, model);
 
                 return RedirectToAction("All", "Admins");
             }
@@ -97,6 +111,6 @@ namespace WebProject.Controllers
 
                 return View(model);
             }
-        }*/
+        }
     }
 }

@@ -10,7 +10,7 @@
     <title>@ViewData["Title"] - DD GameStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Watchlist.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Gamestore.styles.css" asp-append-version="true" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -147,7 +147,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="HealthProduct" asp-action="MyCart">My favourite healthy products</a>
                             </div>
                         </div>
-@*                        @if(adminService.IsAdmin(this.User.Id()))
+                        @if(adminService.IsAdmin(this.User.Id()))
                         {
                                 <div class="gamestore_dropdown">
                             <button class="gamestore_dropbtn">
@@ -159,7 +159,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="Add">Add a potential admin</a>
                                 </div>
                             </div>
-                        }*@
+                        }
                     </div>
                     <partial name="_LoginPartial" />
                 </div>

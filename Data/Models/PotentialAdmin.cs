@@ -1,17 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using WebProject.Data.Models;
 
-namespace WebProject.Models.AdminViewModel
+namespace WebProject.Data.Models
 {
-    public class PotentialAdminViewModel
+    public class PotentialAdmin
     {
+        [Key]
         public int Id { get; set; }
 
         [Required]
         [StringLength(15)]
         public string PhoneNumber { get; set; } = null!;
 
-        public string UserId { get; set; }
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; } = null!;
+        public User User { get; set; }
     }
 }

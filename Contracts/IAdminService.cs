@@ -14,10 +14,10 @@ namespace WebProject.Contracts
         int GetAdminId(string userId);
 
 
-        /*Task<Administrator> Approve(string userId);
+        Task Approve(int adminId);
 
         Task AddPotentialAdmin(string userId, PotentialAdminViewModel model);
 
-        Task<IEnumerable<Administrator>> potentialAdminsList(string userId);*/
+        Task<IEnumerable<PotentialAdmin>> potentialAdminsList();
     }
 }

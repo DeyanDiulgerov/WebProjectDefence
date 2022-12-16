@@ -12,7 +12,7 @@ namespace WebProject.Data
         public GameStoreDbContext(DbContextOptions<GameStoreDbContext> options, bool seed = true )
             : base(options)
         {
-            if(this.Database.IsRelational())
+            /*if(this.Database.IsRelational())
             {
                 this.Database.Migrate();
             }
@@ -21,7 +21,7 @@ namespace WebProject.Data
                 this.Database.EnsureCreated();
             }
 
-            this.SeedDb = seed;
+            this.SeedDb = seed;*/
         }
 
         public DbSet<Developer> Developers { get; set; }
@@ -29,6 +29,7 @@ namespace WebProject.Data
         public DbSet<GamingProduct> GamingProducts { get; set; }
         public DbSet<HealthProduct> HealthProducts { get; set; }
         public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<PotentialAdmin> PotentialAdmins { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

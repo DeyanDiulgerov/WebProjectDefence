@@ -11,8 +11,6 @@ namespace WebProject.Services
     {
         private readonly GameStoreDbContext context;
 
-        List<Administrator> potentialAdmins = new List<Administrator>();
-
         public AdminService(GameStoreDbContext _context)
         {
             context = _context;
@@ -47,44 +45,54 @@ namespace WebProject.Services
             return context.Administrators.Any(a => a.PhoneNumber == phoneNumber);
         }
 
-        /*public async Task AddPotentialAdmin(string userId, PotentialAdminViewModel model)
+        public async Task AddPotentialAdmin(string userId, PotentialAdminViewModel model)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-            var admin = new Administrator()
+            if(!context.PotentialAdmins.Any(a => a.UserId == model.UserId))
             {
-                Id = model.Id,
-                PhoneNumber = model.PhoneNumber,
-            };
+                var admin = new PotentialAdmin()
+                {
+                    Id = model.Id,
+                    PhoneNumber = model.PhoneNumber,
+                    UserId = model.UserId
+                };
 
-            potentialAdmins.Add(admin);
+                context.PotentialAdmins.Add(admin);
+            }
+
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Administrator>> potentialAdminsList(string userId)
+        public async Task<IEnumerable<PotentialAdmin>> potentialAdminsList()
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-            var admins = potentialAdmins.ToList();
-
-            return admins.Select(a => new Administrator()
+            return context.PotentialAdmins.Select(a => new PotentialAdmin()
             {
                 Id = a.Id,
                 PhoneNumber = a.PhoneNumber,
-            });
+                UserId = a.UserId
+            })
+                .ToList();
         }
 
-        public async Task<Administrator> Approve(string userId)
+        public async Task Approve(int adminId)
         {
-            var potentialAdmins = await potentialAdminsList(userId);
+            //var potentialAdmin = potentialAdmins.FirstOrDefault(a => a.Id == adminId);
+            var potentialAdmin = context.PotentialAdmins.Find(adminId);
 
-            var admin = potentialAdmins.FirstOrDefault(a => a.Id == userId);
+            var newAdmin = new Administrator()
+            {
+                UserId = potentialAdmin.UserId,
+                PhoneNumber = potentialAdmin.PhoneNumber
+            };
 
-            await context.Administrators.AddAsync(admin);
-            await context.SaveChangesAsync();
+            await context.Administrators.AddAsync(newAdmin);
+            context.PotentialAdmins.Remove(potentialAdmin);
 
-            return admin;
-        }*/
+
+            // await context.SaveChangesAsync() DID NOT WORK 
+            context.SaveChanges();
+        }
 
     }
 }
