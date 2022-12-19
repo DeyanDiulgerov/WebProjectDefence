@@ -37,6 +37,9 @@ namespace WebProject.Data
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new AdminConfiguration());
             builder.ApplyConfiguration(new GameConfiguration());
+            builder.ApplyConfiguration(new GamingProductsConfiguration());
+            builder.ApplyConfiguration(new HealthProductConfiguration());
+            builder.ApplyConfiguration(new PotentialAdminConfiguration());
 
             builder
                 .Entity<UserGame>()
