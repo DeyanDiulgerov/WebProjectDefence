@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebProject.Data.Configuration;
 using WebProject.Data.Models;
 
 namespace WebProject.Data
@@ -24,16 +25,19 @@ namespace WebProject.Data
             this.SeedDb = seed;*/
         }
 
-        public DbSet<Developer> Developers { get; set; }
-        public DbSet<Game> Games { get; set; }
-        public DbSet<GamingProduct> GamingProducts { get; set; }
-        public DbSet<HealthProduct> HealthProducts { get; set; }
-        public DbSet<Administrator> Administrators { get; set; }
-        public DbSet<PotentialAdmin> PotentialAdmins { get; set; }
+        public DbSet<Game> Games { get; set; } = null!;
+        public DbSet<GamingProduct> GamingProducts { get; set; } = null!;
+        public DbSet<HealthProduct> HealthProducts { get; set; } = null!;
+        public DbSet<Administrator> Administrators { get; set; } = null!;
+        public DbSet<PotentialAdmin> PotentialAdmins { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new AdminConfiguration());
+            builder.ApplyConfiguration(new GameConfiguration());
+
             builder
                 .Entity<UserGame>()
                 .HasKey(x => new { x.UserId, x.GameId });
@@ -57,54 +61,6 @@ namespace WebProject.Data
                 .Property(x => x.Email)
                 .HasMaxLength(60)
                 .IsRequired();
-
-            /*builder
-                .Entity<Genre>()
-                .HasData(new Genre()
-                {
-                    Id = 1,
-                    Name = "Sandbox"
-                },
-                new Genre()
-                {
-                    Id = 2,
-                    Name = "Real-time strategy"
-                },
-                new Genre()
-                {
-                    Id = 3,
-                    Name = "Shooter"
-                },
-                new Genre()
-                {
-                    Id = 4,
-                    Name = "MOBA"
-                },
-                new Genre()
-                {
-                    Id = 5,
-                    Name = "Role-playing"
-                },
-                new Genre()
-                {
-                    Id = 6,
-                    Name = "Simulation and sports"
-                },
-                new Genre()
-                {
-                    Id = 7,
-                    Name = "Action-adventure"
-                },
-                new Genre()
-                {
-                    Id = 8,
-                    Name = "Survival and horror"
-                },
-                new Genre()
-                {
-                    Id = 9,
-                    Name = "Platformer"
-                });*/
 
             base.OnModelCreating(builder);
         }

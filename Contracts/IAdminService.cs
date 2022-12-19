@@ -13,7 +13,6 @@ namespace WebProject.Contracts
 
         int GetAdminId(string userId);
 
-
         Task Approve(int adminId);
 
         Task AddPotentialAdmin(string userId, PotentialAdminViewModel model);

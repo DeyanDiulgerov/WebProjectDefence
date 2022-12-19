@@ -47,6 +47,7 @@ namespace WebProject.Services
 
         public async Task AddPotentialAdmin(string userId, PotentialAdminViewModel model)
         {
+            // could probably remove (string userId) and use model.UserId!
             var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
             if(!context.PotentialAdmins.Any(a => a.UserId == model.UserId))
