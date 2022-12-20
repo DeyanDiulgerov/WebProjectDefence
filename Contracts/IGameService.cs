@@ -1,4 +1,5 @@
 ﻿using WebProject.Data.Models;
+using WebProject.Models.Enumerations;
 using WebProject.Models.GameViewModel;
 
 namespace WebProject.Contracts
@@ -7,7 +8,11 @@ namespace WebProject.Contracts
     {
         Task AddGameToStoreAsync(AddGameViewModel model);
 
-        Task<IEnumerable<GameListViewModel>> ShowAllGamesAsync();
+        Task<GamesQueryModel> ShowAllGamesAsync(
+            string? seatchTerm = null,
+            GameSorting sorting = GameSorting.Newest,
+            int currentPage = 1,
+            int gamesPerPage = 1);
 
         Task<IEnumerable<GameListViewModel>> MyCartGamesAsync(string userId);
 

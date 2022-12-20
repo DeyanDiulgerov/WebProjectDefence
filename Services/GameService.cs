@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
+using WebProject.Models.Enumerations;
 using WebProject.Models.GameViewModel;
 
 namespace WebProject.Services
@@ -183,12 +184,41 @@ namespace WebProject.Services
 
         }
 
-        public async Task<IEnumerable<GameListViewModel>> ShowAllGamesAsync()
+        public async Task<GamesQueryModel> ShowAllGamesAsync(string? searchTerm = null, GameSorting sorting = GameSorting.Newest, int currentPage = 1, int gamesPerPage = 1)
         {
-            var games = await context.Games
-                .ToListAsync();
+            var result = new GamesQueryModel();
+            var games = context.Games.AsQueryable();
 
-            return games
+            if(string.IsNullOrEmpty(searchTerm) == false)
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+
+                //2nd option but It did not work
+                /*games = games.Where(g =>
+                    g.GameName.ToLower().Contains(searchTerm.ToLower()) ||
+                    g.Developer.ToLower().Contains(searchTerm.ToLower()) ||
+                    g.Genre.ToLower().Contains(searchTerm.ToLower()));*/
+
+                games = games
+                    .Where(g => EF.Functions.Like(g.GameName.ToLower(), searchTerm) ||
+                    EF.Functions.Like(g.Developer.ToLower(), searchTerm) ||
+                    EF.Functions.Like(g.Description.ToLower(), searchTerm));
+            }
+
+            games = sorting switch
+            {
+                GameSorting.Price => games.OrderBy(g => g.Price),
+                GameSorting.DiscountPrice => games.OrderBy(g => g.DiscountPrice),
+                GameSorting.Rating => games.OrderByDescending(g => g.Rating),
+                GameSorting.FirstWeekSales => games.OrderByDescending(g => g.Sales),
+                //GameSorting.Genre => games.OrderBy(g => g.Genre),
+                _ => games.OrderByDescending(g => g.Id)
+            };
+
+            result.Games = await games
+                .Skip((currentPage - 1) * gamesPerPage)
+                .Take(gamesPerPage)
                 .Select(g => new GameListViewModel()
                 {
                     GameName = g.GameName,
@@ -203,7 +233,12 @@ namespace WebProject.Services
                     Id = g.Id,
                     DiscountPrice = g.DiscountPrice,
                     Rating = g.Rating
-                });
+                })
+                .ToListAsync();
+
+            result.TotalGamesCount = await games.CountAsync();
+
+            return result;
         }
     }
 }

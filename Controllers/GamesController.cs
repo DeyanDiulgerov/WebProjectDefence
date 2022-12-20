@@ -24,11 +24,18 @@ namespace WebProject.Controllers
         }
 
 
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllGamesQueryModel query)
         {
-            var model = await gameService.ShowAllGamesAsync();
+            var result = await gameService.ShowAllGamesAsync(
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllGamesQueryModel.GamesPerPage);
 
-            return View(model);
+            query.TotalGamesCount = result.TotalGamesCount;
+            query.Games = result.Games;
+
+            return View(query);
         }
 
         [HttpGet]
