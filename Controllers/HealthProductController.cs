@@ -19,11 +19,18 @@ namespace WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllHealthQueryModel query)
         {
-            var model = await healthProductService.ShowAllProducts();
+            var result = await healthProductService.ShowAllProducts(
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllHealthQueryModel.HealthyProudctsPerPage);
 
-            return View(model);
+            query.TotalHealthProductsCount = result.TotalHealthProductsCount;
+            query.HealthProducts = result.HealthProducts;
+
+            return View(query);
         }
 
         [HttpGet]

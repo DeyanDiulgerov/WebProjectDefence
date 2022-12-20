@@ -1,10 +1,15 @@
-﻿using WebProject.Models.HealthProductViewModel;
+﻿using WebProject.Models.Enumerations;
+using WebProject.Models.HealthProductViewModel;
 
 namespace WebProject.Contracts
 {
     public interface IHealthProductService
     {
-        Task<IEnumerable<HealthProductListViewModel>> ShowAllProducts();
+        Task<HealthQueryModel> ShowAllProducts(
+            string? searchTerm,
+            HealthSorting sorting = HealthSorting.Newest,
+            int currentPage = 1,
+            int productsPerPage = 1);
 
         Task AddHealthProduct(AddHealthProductModel model);
 

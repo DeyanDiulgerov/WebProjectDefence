@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
+using WebProject.Models.Enumerations;
 using WebProject.Models.HealthProductViewModel;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -34,12 +35,35 @@ namespace WebProject.Services
             await context.HealthProducts.AddAsync(product);
             await context.SaveChangesAsync();
         }
-        public async Task<IEnumerable<HealthProductListViewModel>> ShowAllProducts()
+        public async Task<HealthQueryModel> ShowAllProducts(
+            string? searchTerm,
+            HealthSorting sorting = HealthSorting.Newest,
+            int currentPage = 1,
+            int productsPerPage = 1)
         {
-            var products = await context.HealthProducts
-                .ToListAsync();
+            var result = new HealthQueryModel();
+            var products = context.HealthProducts.AsQueryable();
 
-            return products
+            if(string.IsNullOrEmpty(searchTerm) == false)
+            {
+                searchTerm = $"%{searchTerm}%";
+
+                products = products
+                    .Where(p => EF.Functions.Like(p.Name.ToLower(), searchTerm) ||
+                    EF.Functions.Like(p.Description.ToLower(), searchTerm));
+            }
+
+            products = sorting switch
+            {
+                HealthSorting.Price => products.OrderBy(p => p.Price),
+                HealthSorting.DiscountPrice => products.OrderBy(p => p.DiscountPrice),
+                HealthSorting.Rating => products.OrderByDescending(p => p.Rating),
+                _ => products.OrderByDescending(p => p.Id)
+            };
+
+            result.HealthProducts = await products
+                .Skip((currentPage - 1) * productsPerPage)
+                .Take(productsPerPage)
                 .Select(p => new HealthProductListViewModel()
                 {
                     Name = p.Name,
@@ -50,7 +74,12 @@ namespace WebProject.Services
                     Price = p.Price,
                     DiscountPrice = p.DiscountPrice,
                     Rating = p.Rating
-                });
+                })
+                .ToListAsync();
+
+            result.TotalHealthProductsCount = await products.CountAsync();
+
+            return result;
         }
 
         public async Task AddToCollection(int productId, string userId)
