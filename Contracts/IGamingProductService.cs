@@ -1,10 +1,15 @@
-﻿using WebProject.Models.GamingProductViewModel;
+﻿using WebProject.Models.Enumerations;
+using WebProject.Models.GamingProductViewModel;
 
 namespace WebProject.Contracts
 {
     public interface IGamingProductService
     {
-        Task<IEnumerable<ProductListViewModel>> AllProductsListAsync();
+        Task<GamingProductsQueryModel> AllProductsListAsync(
+            string? searchTerm,
+            GamingProductSorting sorting = GamingProductSorting.Newest,
+            int currentPage = 1,
+            int productsPerPage = 1);
 
         Task AddProductForSaleAsync(AddProductViewModel model);
 

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebProject.Contracts;
+using WebProject.Models.GameViewModel;
 using WebProject.Models.GamingProductViewModel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebProject.Controllers
 {
@@ -17,11 +19,18 @@ namespace WebProject.Controllers
         }
 
 
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllGamingProductsQueryModel query)
         {
-            var model = await productService.AllProductsListAsync();
+            var result = await productService.AllProductsListAsync(
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllGamingProductsQueryModel.ProductsPerPage);
 
-            return View(model);
+            query.TotalGamingProductsCount = result.TotalGamingProductsCount;
+            query.GamingProducts = result.GamingProducts;
+
+            return View(query);
         }
 
         [HttpGet]

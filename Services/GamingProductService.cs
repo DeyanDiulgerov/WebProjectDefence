@@ -2,6 +2,7 @@
 using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
+using WebProject.Models.Enumerations;
 using WebProject.Models.GamingProductViewModel;
 
 namespace WebProject.Services
@@ -35,12 +36,31 @@ namespace WebProject.Services
         }
 
 
-        public async Task<IEnumerable<ProductListViewModel>> AllProductsListAsync()
+        public async Task<GamingProductsQueryModel> AllProductsListAsync(string? searchTerm, GamingProductSorting sorting = GamingProductSorting.Newest, int currentPage = 1, int productsPerPage = 1)
         {
-            var products = await context.GamingProducts
-                .ToListAsync();
+            var result = new GamingProductsQueryModel();
+            var products = context.GamingProducts.AsQueryable();
 
-            return products
+            if(string.IsNullOrEmpty(searchTerm) == false)
+            {
+                searchTerm = $"%{searchTerm}%";
+
+                products = products
+                    .Where(p => EF.Functions.Like(p.Name.ToLower(), searchTerm) ||
+                    EF.Functions.Like(p.Description.ToLower(), searchTerm));
+            }
+
+            products = sorting switch
+            {
+                GamingProductSorting.Price => products.OrderBy(p => p.Price),
+                GamingProductSorting.DiscountPrice => products.OrderBy(p => p.DiscountPrice),
+                GamingProductSorting.Sales => products.OrderByDescending(p => p.Sales),
+                _ => products.OrderByDescending(p => p.Id)
+            };
+
+            result.GamingProducts = await products
+                .Skip((currentPage - 1) * productsPerPage)
+                .Take(productsPerPage)
                 .Select(p => new ProductListViewModel()
                 {
                     Name = p.Name,
@@ -52,7 +72,11 @@ namespace WebProject.Services
                     Price = p.Price,
                     DiscountPrice = p.DiscountPrice,
                     Sales = p.Sales
-                });
+                }).ToListAsync();
+
+            result.TotalGamingProductsCount = await products.CountAsync();
+
+            return result;
         }
 
         public async Task<IEnumerable<ProductListViewModel>> MyProductsAsync(string userId)

@@ -6,6 +6,7 @@ using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
 using WebProject.Models.GameViewModel;
+using WebProject.Models.GamingProductViewModel;
 
 namespace WebProject.Controllers
 {
