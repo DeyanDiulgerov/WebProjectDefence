@@ -1,5 +1,6 @@
 ﻿using WebProject.Data.Models;
 using WebProject.Models.AdminViewModel;
+using WebProject.Models.UserViewModel;
 
 namespace WebProject.Contracts
 {
@@ -18,5 +19,7 @@ namespace WebProject.Contracts
         Task AddPotentialAdmin(string userId, PotentialAdminViewModel model);
 
         Task<IEnumerable<PotentialAdmin>> potentialAdminsList();
+
+        IEnumerable<UserServiceModel> All();
     }
 }

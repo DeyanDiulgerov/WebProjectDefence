@@ -4,16 +4,21 @@ using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
 using WebProject.Models.AdminViewModel;
+using WebProject.Models.UserViewModel;
 
 namespace WebProject.Services
 {
     public class AdminService : IAdminService
     {
         private readonly GameStoreDbContext context;
+        private readonly UserManager<User> userManager;
 
-        public AdminService(GameStoreDbContext _context)
+        public AdminService
+            (GameStoreDbContext _context,
+            UserManager<User> _userManager)
         {
             context = _context;
+            userManager = _userManager;
         }
 
         public void Create(string userId, string phoneNumber)
@@ -95,5 +100,33 @@ namespace WebProject.Services
             context.SaveChanges();
         }
 
+        public IEnumerable<UserServiceModel> All()
+        {
+            List<UserServiceModel> result;
+
+            result = context.Administrators
+                .Select(a => new UserServiceModel()
+                {
+                    UserId = a.UserId,
+                    Email = a.User.Email,
+                    FullName = a.User.UserName,
+                    PhoneNumber = a.PhoneNumber
+                })
+                .ToList();
+
+            //string[] adminIds = result.Select(a => a.UserId).ToArray();
+            string[] adminIds = context.Administrators.Select(a => a.UserId).ToArray();
+
+            result.AddRange(context.Users
+                .Where(u => adminIds.Contains(u.Id) == false)
+                .Select(u => new UserServiceModel()
+                {
+                    UserId = u.Id,
+                    Email = u.Email,
+                    FullName = u.UserName
+                }).ToList());
+
+            return result;           
+        }
     }
 }
