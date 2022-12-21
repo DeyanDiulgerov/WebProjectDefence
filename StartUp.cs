@@ -5,6 +5,7 @@ using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
 using WebProject.Services;
+using WebProject.Services.Statistics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,7 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IGamingProductService, GamingProductService>();
 builder.Services.AddScoped<IHealthProductService, HealthProductService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 var app = builder.Build();
 

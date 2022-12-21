@@ -6,16 +6,6 @@
       background-size = "cover">
 </body>
 
-@*<style>
-    body {
-        background-image: url(https://www.ikea.com/images/9a/b6/9ab603e7ab8c6dba592e806504003d84.jpg?f=s);
-        background-color: aqua;
-        background-size: cover;
-    }
-</style>*@
-
-
-
 <div class="text-center text-white">
     <h1 class="display-4">DD GameStore</h1>
     <p>Come and enjoy the best games on the market!</p>
@@ -25,3 +15,32 @@
         help you stay fit and pain free when gaming or working at your PC!
     </p>
 </div>
+<div class="mb-5"></div>
+
+<div class="row">
+    <div class="col-12 text-center">
+        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
+    </div>
+</div>
+
+<div class="mt-4 p-5 bg-light d-none" id="statistics">
+    <div class="row">
+        <h2 class="col-md-6 text-center" id="total-gamingProducts"></h2>
+        <h2 class="col-md-6 text-center" id="total-healthyProducts"></h2>
+        <h2 class="col-md-12 text-center" id="total-games"></h2>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $('#statistics-button').on('click', ev => {
+            $.get('api/statistics', (data) => {
+                $('#total-gamingProducts').text(data.totalGamingProducts + " Gaming Products");
+                $('#total-healthyProducts').text(data.totalHealthyProducts + " Healthy Products");
+                $('#total-games').text(data.totalGames + " Games");
+                $("#statistics").removeClass('d-none');
+                $('#statistics-button').hide();
+            });
+        });
+    </script>
+}
