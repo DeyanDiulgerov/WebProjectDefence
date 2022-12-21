@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebProject.Contracts;
 using WebProject.Data;
@@ -30,7 +31,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/User/Login";
 });
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+});
 
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IGamingProductService, GamingProductService>();
@@ -71,8 +75,9 @@ app.UseEndpoints(endpoints =>
     );
 
     endpoints.MapControllerRoute(
-        name: "gameDetails",
-        pattern: "Game/Details/{id}/{information}"
+        name: "Game Details",
+        pattern: "Games/Details/{id}/{information}",
+        defaults: new { Controller = "Games", Action = "Details"}
     );
 
     endpoints.MapDefaultControllerRoute();

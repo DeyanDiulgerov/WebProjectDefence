@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace WebProject.Models.GameViewModel
 {
-    public class GameListViewModel
+    public class GameListViewModel : IGameModel
     {
         public int Id { get; set; }
 

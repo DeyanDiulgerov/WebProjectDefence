@@ -5,6 +5,7 @@ using System.Security.Policy;
 using WebProject.Contracts;
 using WebProject.Data;
 using WebProject.Data.Models;
+using WebProject.Infrastructure;
 using WebProject.Models.GameViewModel;
 using WebProject.Models.GamingProductViewModel;
 
@@ -98,7 +99,7 @@ namespace WebProject.Controllers
             return RedirectToAction(nameof(MyCart));
         }
 
-        public IActionResult Details(int gameId)
+        public IActionResult Details(int gameId/*, string information*/)
         {
             if (!gameService.Exists(gameId))
             {
@@ -106,6 +107,11 @@ namespace WebProject.Controllers
             }
 
             var gameModel = gameService.GameDetailsById(gameId);
+
+            /*if(information != gameModel.GetInformation())
+            {
+                return BadRequest();
+            }*/
 
             return View(gameModel);
         }
