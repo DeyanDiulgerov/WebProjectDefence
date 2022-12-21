@@ -1,7 +1,12 @@
-﻿@{
+﻿@using WebProject.Contracts
+@using WebProject.Infrastructure
+@inject IAdminService adminService;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+{
 <body background="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWoY9TpSx88HqnbRAqMnQCq08pSvv5MLNFmg&usqp=CAU" ,
       background-size = "cover">
 </body>
@@ -44,3 +49,4 @@
         });
     </script>
 }
+

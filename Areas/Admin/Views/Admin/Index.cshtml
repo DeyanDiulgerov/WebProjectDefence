@@ -1,0 +1,45 @@
+﻿@using WebProject.Contracts
+@using WebProject.Infrastructure
+@inject IAdminService adminService;
+
+@{
+    ViewData["Title"] = "Admin Home Page";
+}
+
+@*@if (this.User.Id() == "280cb06c-9c03-4481-ac1e-5da1be2ceece" ||
+     this.User.Id() == "ea173d49-e1d8-4eed-b00c-33ae37c947e7" ||
+     this.User.Id() == "dea12856-c198-4129-b3f3-b893d8395082")*@
+@if(adminService.IsAdmin(this.User.Id()))
+{
+<div class="mt-4 p-5 bg-light text-center">
+    <h2 class="display-4">Hello, Admin!</h2>
+    <p class="lead mb-1 mt-3">
+        This is your administrator area - you can <b>read</b>, <b>create</b>,
+        <b>delete</b> and <b>edit</b> games.    </p>
+    <p class="lead mt-1">
+        You can also see <b>all users and admins</b>in the system.
+    </p>
+    <hr class="my-4">
+    <a asp-area="" asp-controller="Games" asp-action="All"
+       class="btn btn-primary btn-lg">All Game</a>
+    <a asp-area="" asp-controller="Games" asp-action="Add"
+       class="btn btn-primary btn-lg">Add Game</a>
+    <span>  |   </span>
+    <a asp-area="" asp-controller="Games" asp-action="MyCart"
+       class="btn btn-primary btn-lg">My Games</a>
+    <span>  |   </span>
+    <a asp-area="Admin" asp-controller="Users" asp-action="All"
+       class="btn btn-primary btn-lg">All Users</a>
+</div>
+    <div class="mt-4 p-5 bg-light text-center">
+        <hr class="my-4">
+        <a asp-area="" asp-controller="GamingProducts" asp-action="All"
+       class="btn btn-primary btn-lg">All Gaming Products</a>
+        <a asp-area="" asp-controller="GamingProducts" asp-action="Add"
+       class="btn btn-primary btn-lg">Add Gaming Product</a>
+        <span>  |   </span>
+        <a asp-area="" asp-controller="Games" asp-action="MyCart"
+       class="btn btn-primary btn-lg">My Gaming Products</a>
+        <span>  |   </span>
+    </div>
+}

@@ -1,28 +1,42 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebProject.Contracts;
+using WebProject.Controllers;
 using WebProject.Data;
 using WebProject.Infrastructure;
 using WebProject.Models.AdminViewModel;
+using WebProject.Areas.Admin.Controllers;
 
-namespace WebProject.Controllers
+namespace WebProject.Areas.Admin.Controllers
 {
+    [Area(AreaName)]
     [Authorize]
-    public class AdminsController : Controller
+    public class AdminController : Controller
     {
+        public const string AreaName = "Admin";
+        public const string AdminRoleName = "Administrator";
+        public const string AdminEmail = "BesniqVurkolak@email.bg";
+
         private readonly IAdminService adminService;
         private readonly GameStoreDbContext context;
 
-        public AdminsController(IAdminService _adminService, GameStoreDbContext _context)
+        public AdminController
+            (IAdminService _adminService,
+            GameStoreDbContext _context)
         {
             adminService = _adminService;
             context = _context;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Become()
         {
-            if(!adminService.IsAdmin(this.User.Id()))
+            if (!adminService.IsAdmin(User.Id()))
             {
                 return RedirectToAction(nameof(GamesController.All), "Games");
             }
@@ -33,20 +47,20 @@ namespace WebProject.Controllers
         [HttpPost]
         public IActionResult Become(BecomeAdminViewModel model)
         {
-            var userId = this.User.Id();
+            var userId = User.Id();
 
-            if(adminService.IsAdmin(userId))
+            if (adminService.IsAdmin(userId))
             {
                 return BadRequest();
             }
 
-            if(adminService.UserWithPhoneNumberExists(model.PhoneNumber))
+            if (adminService.UserWithPhoneNumberExists(model.PhoneNumber))
             {
                 ModelState.AddModelError(nameof(model.PhoneNumber),
                     "Phone number already exists. Enter another one to avoid confusion");
             }
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -59,7 +73,7 @@ namespace WebProject.Controllers
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            if (!adminService.IsAdmin(this.User.Id()))
+            if (!adminService.IsAdmin(User.Id()))
             {
                 return RedirectToAction(nameof(GamesController.All), "Games");
             }
@@ -79,7 +93,7 @@ namespace WebProject.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            if (!adminService.IsAdmin(this.User.Id()))
+            if (!adminService.IsAdmin(User.Id()))
             {
                 return RedirectToAction(nameof(GamesController.All), "Games");
             }
@@ -94,7 +108,7 @@ namespace WebProject.Controllers
                 return View(model);
             }
 
-            if (!adminService.IsAdmin(this.User.Id()))
+            if (!adminService.IsAdmin(User.Id()))
             {
                 return RedirectToAction(nameof(GamesController.All), "Games");
             }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebProject.Data.Models;
+using WebProject.Infrastructure;
 using WebProject.Models.UserViewModel;
 
 namespace WebProject.Controllers
