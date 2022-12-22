@@ -11,14 +11,11 @@ namespace WebProject.Services
     public class AdminService : IAdminService
     {
         private readonly GameStoreDbContext context;
-        private readonly UserManager<User> userManager;
 
         public AdminService
-            (GameStoreDbContext _context,
-            UserManager<User> _userManager)
+            (GameStoreDbContext _context)
         {
             context = _context;
-            userManager = _userManager;
         }
 
         public void Create(string userId, string phoneNumber)
@@ -114,8 +111,7 @@ namespace WebProject.Services
                 })
                 .ToList();
 
-            //string[] adminIds = result.Select(a => a.UserId).ToArray();
-            string[] adminIds = context.Administrators.Select(a => a.UserId).ToArray();
+            string[] adminIds = result.Select(a => a.UserId).ToArray();
 
             result.AddRange(context.Users
                 .Where(u => adminIds.Contains(u.Id) == false)
@@ -126,7 +122,7 @@ namespace WebProject.Services
                     FullName = u.UserName
                 }).ToList());
 
-            return result;           
+            return result;
         }
     }
 }

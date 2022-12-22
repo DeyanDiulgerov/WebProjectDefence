@@ -1,0 +1,33 @@
+﻿@using WebProject.Contracts
+@using WebProject.Data.Models
+@using WebProject.Models.AdminViewModel
+@inject IAdminService adminService;
+@model IEnumerable<PotentialAdmin>
+
+@{
+    ViewBag.Title = "All potential admins";
+}
+
+<h2 class="text-center text-white">@ViewBag.Title</h2>
+<hr />
+
+<body background="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWoY9TpSx88HqnbRAqMnQCq08pSvv5MLNFmg&usqp=CAU">
+</body>
+
+<div class="text-center row">
+    @foreach (var admin in Model)
+    {
+        <div class="card col-4" style="width: 20rem;">
+            <div class="card-body">
+
+                <h5 class="card-title mt-1">@admin.Id</h5>
+                <p class="mb-0">Phone Number: @admin.PhoneNumber</p>
+                <p class="mb-0">UserId: @admin.UserId</p>
+            </div>
+
+            <form class="input-group-sm" asp-route-adminId="@admin.Id" asp-controller="Admin" asp-action="Approve" method="post">
+                <input type="submit" value="Approve" class="fs-6 btn btn-success mb-3 p-2" />
+            </form>
+        </div>
+    }
+</div>

@@ -25,7 +25,7 @@
                 <td><label>@user.FullName</label></td>
                 <td><label>@user.PhoneNumber</label></td>
                 <td>
-                    @if (user.PhoneNumber != string.Empty)
+                    @if (string.IsNullOrEmpty(user.PhoneNumber) == false)
                     {
                         <label>✔</label>
                     }

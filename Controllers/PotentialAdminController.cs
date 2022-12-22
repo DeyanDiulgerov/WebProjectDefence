@@ -1,26 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebProject.Contracts;
-using WebProject.Controllers;
 using WebProject.Data;
 using WebProject.Infrastructure;
 using WebProject.Models.AdminViewModel;
-using WebProject.Areas.Admin.Controllers;
 
-namespace WebProject.Areas.Admin.Controllers
+namespace WebProject.Controllers
 {
-    [Area(AreaName)]
-    [Authorize]
-    public class AdminController : Controller
+    public class PotentialAdminController : Controller
     {
-        public const string AreaName = "Admin";
-        public const string AdminRoleName = "Administrator";
-        public const string AdminEmail = "BesniqVurkolak@email.bg";
-
         private readonly IAdminService adminService;
         private readonly GameStoreDbContext context;
 
-        public AdminController
+        public PotentialAdminController
             (IAdminService _adminService,
             GameStoreDbContext _context)
         {
@@ -70,7 +61,7 @@ namespace WebProject.Areas.Admin.Controllers
             return RedirectToAction(nameof(GamesController.All), "Games");
         }
 
-        /*[HttpGet]
+        [HttpGet]
         public async Task<IActionResult> All()
         {
             if (!adminService.IsAdmin(User.Id()))
@@ -125,6 +116,6 @@ namespace WebProject.Areas.Admin.Controllers
 
                 return View(model);
             }
-        }*/
+        }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebProject.Contracts;
 using WebProject.Data;
+using WebProject.Data.Models;
+using WebProject.Models.GameViewModel;
+using WebProject.Services;
 
 namespace WebProject.Areas.Admin.Controllers
 {
@@ -8,6 +11,7 @@ namespace WebProject.Areas.Admin.Controllers
     {
         private readonly IAdminService adminService;
         private readonly IAdminService result;
+        private readonly GameStoreDbContext context;
 
         public UsersController
             (IAdminService _adminService,
@@ -17,10 +21,11 @@ namespace WebProject.Areas.Admin.Controllers
         {
             adminService = _adminService;
             result = _result;
+            context = _context;
         }
 
         [Route("Users/All")]
-        public IActionResult All()
+        public IActionResult AllUsers()
         {
             var result = this.result.All();
             return View(result);
